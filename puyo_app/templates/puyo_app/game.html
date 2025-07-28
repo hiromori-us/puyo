@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ぷよぷよ風パズルゲーム - プレイ中</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'puyo_app/css/style.css' %}">
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <h1>ぷよぷよ風パズルゲーム</h1>
+            <div id="chainText" class="chain-display"></div>
+        </div>
+        
+        <div class="game-main">
+            <div class="next-area">
+                <h3>Next</h3>
+                <canvas id="nextCanvas" width="128" height="128"></canvas>
+            </div>
+            
+            <div class="field-area">
+                <canvas id="fieldCanvas" width="192" height="384"></canvas>
+            </div>
+            
+            <div class="info-area">
+                <div class="instructions">
+                    <h3>操作</h3>
+                    <p>← → : 移動</p>
+                    <p>↓ : 高速落下</p>
+                    <p>↑ : 回転</p>
+                    <p>ESC : ポーズ</p>
+                </div>
+                
+                <div class="chain-info">
+                    <h3>連鎖名称</h3>
+                    <div class="chain-list">
+                        <div>1連鎖: 起業</div>
+                        <div>2連鎖: プレシード</div>
+                        <div>3連鎖: シード</div>
+                        <div>4連鎖: シリーズA</div>
+                        <div>5連鎖: シリーズB</div>
+                        <div>6連鎖: シリーズC</div>
+                        <div>7連鎖: シリーズD</div>
+                        <div class="ipo">8連鎖以上: IPO</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="gameOverModal" class="modal">
+            <div class="modal-content">
+                <h2 id="gameOverTitle">GAME OVER</h2>
+                <p id="gameOverMessage">もう一度挑戦してみましょう！</p>
+                <button onclick="restartGame()">もう一度</button>
+                <button onclick="goToStart()">スタート画面へ</button>
+            </div>
+        </div>
+        
+        <div id="pauseModal" class="modal">
+            <div class="modal-content">
+                <h2>ポーズ</h2>
+                <button onclick="resumeGame()">再開</button>
+                <button onclick="restartGame()">リスタート</button>
+                <button onclick="goToStart()">スタート画面へ</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 音声ファイル -->
+    {% if bgm_enabled %}
+    <audio id="bgmAudio" loop>
+        <source src="{% static 'puyo_app/audio/bgm.mp3' %}" type="audio/mpeg">
+    </audio>
+    {% endif %}
+    
+    {% if sound_enabled %}
+    <audio id="chainVoice">
+        <source src="{% static 'puyo_app/audio/chain_voice.mp3' %}" type="audio/mpeg">
+    </audio>
+    {% endif %}
+    
+    <script>
+        // Django設定をJavaScriptに渡す
+        const gameSettings = {
+            speed: '{{ speed }}',
+            bgmEnabled: {{ bgm_enabled|yesno:"true,false" }},
+            soundEnabled: {{ sound_enabled|yesno:"true,false" }}
+        };
+    </script>
+    <script src="{% static 'puyo_app/js/game.js' %}"></script>
+</body>
+</html>
