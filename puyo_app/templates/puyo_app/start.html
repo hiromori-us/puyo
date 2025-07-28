@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ぷよぷよ風パズルゲーム</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'puyo_app/css/style.css' %}">
+</head>
+<body>
+    <div class="start-container">
+        <h1>ぷよぷよ風パズルゲーム</h1>
+        <h2>スタートアップ連鎖</h2>
+        
+        <div class="game-description">
+            <p>同じ色のぷよを4つ以上つなげて消そう！</p>
+            <p>8連鎖以上でIPO達成！</p>
+        </div>
+        
+        <form method="post" action="{% url 'game' %}">
+            {% csrf_token %}
+            
+            <div class="settings">
+                <h3>ゲーム設定</h3>
+                
+                <div class="setting-group">
+                    <label>落下速度:</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="speed" value="low"> 低速</label>
+                        <label><input type="radio" name="speed" value="medium" checked> 中速</label>
+                        <label><input type="radio" name="speed" value="high"> 高速</label>
+                    </div>
+                </div>
+                
+                <div class="setting-group">
+                    <label><input type="checkbox" name="bgm" checked> BGM</label>
+                </div>
+                
+                <div class="setting-group">
+                    <label><input type="checkbox" name="sound" checked> 効果音</label>
+                </div>
+            </div>
+            
+            <button type="submit" class="start-button">ゲーム開始</button>
+        </form>
+        
+        <div class="instructions">
+            <h3>操作方法</h3>
+            <ul>
+                <li>← → : 左右移動</li>
+                <li>↓ : 高速落下</li>
+                <li>↑ : 回転</li>
+            </ul>
+        </div>
+        
+        <div class="chain-names">
+            <h3>連鎖名称</h3>
+            <ul>
+                <li>1連鎖: 起業</li>
+                <li>2連鎖: プレシード</li>
+                <li>3連鎖: シード</li>
+                <li>4連鎖: シリーズA</li>
+                <li>5連鎖: シリーズB</li>
+                <li>6連鎖: シリーズC</li>
+                <li>7連鎖: シリーズD</li>
+                <li>8連鎖以上: IPO (ゲームクリア)</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
